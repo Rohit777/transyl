@@ -1,0 +1,42 @@
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image.prod.js"></script>
+    <script src="https://aframe.io/releases/1.2.0/aframe.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/donmccurdy/aframe-extras@v6.1.1/dist/aframe-extras.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/hiukim/mind-ar-js@1.0.0/dist/mindar-image-aframe.prod.js"></script>
+    <script>
+      document.addEventListener("DOMContentLoaded", function(){
+        // detect click event
+        const firstPlane = document.querySelector('#fisrt');
+        const firstTarget = document.querySelector('#first-target');
+        
+
+        firstPlane.addEventListener("click", event => {
+          console.log("click");
+          document.querySelector('#transyl').play();
+        });
+
+        firstTarget.addEventListener("targetLost", event => {
+          console.log("target lost");
+          document.querySelector('#transyl').pause(); 
+        });
+      });
+    </script>
+  </head>
+  <body>
+    <a-scene mindar-image="imageTargetSrc: transyl.mind;" color-space="sRGB" renderer="colorManagement: true, physicallyCorrectLights" vr-mode-ui="enabled: false" device-orientation-permission-ui="enabled: false">
+      <a-assets>
+    <video id="transyl" src="transyl.mp4" preload="auto" playsinline webkit-playsinline ></video>
+
+      </a-assets>
+
+      <a-camera position="0 0 0" look-controls="enabled: false" cursor="fuse: false; rayOrigin: mouse;" raycaster="far: 10000; objects: .clickable"></a-camera>
+
+      <a-entity id="first-target" mindar-image-target="targetIndex: 0">
+        <a-video src="#transyl" class="clickable" id="fisrt" webkit-playsinline playsinline width="1" height="0.552"  position="0 0 0"></a-video>
+      </a-entity>
+    </a-scene>
+  </body>
+</html>
